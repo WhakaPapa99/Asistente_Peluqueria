@@ -1,0 +1,15 @@
+# Variables de entorno y credenciales (CRÍTICO: nunca subir a GitHub)
+.env
+
+# Entornos virtuales
+.venv/
+venv/
+ENV/
+
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+
+# Configuración de IDEs
+.idea/
+.vscode/
