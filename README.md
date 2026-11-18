@@ -108,6 +108,3 @@ En Python se parsea el JSON con `json.loads()` y se extrae el texto limpio y san
 El asistente rechaza amablemente cualquier consulta ajena a la peluquería (por ejemplo, preguntas generales, de programación o deportes), evitando alucinaciones fuera del contexto del negocio.
 
 ---
-
-## 👨‍💻 Autor
-Proyecto realizado para el módulo de **Acceso a Datos** (2º DAM).
