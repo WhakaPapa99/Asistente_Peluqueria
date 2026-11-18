@@ -1,9 +1,11 @@
-Bienvenido a Peluquería y Barbería Paco 💈
+--- INFORMACIÓN OFICIAL DE LA PELUQUERÍA ---
+Nombre del establecimiento: Peluquería y Barbería Paco 💈
+Especialidad: Peluquería clásica y moderna para caballero, corte infantil y arreglo tradicional de barba a navaja.
 
-Nuestros Servicios:
+Nuestros Servicios y Tarifas:
 - Corte de cabello clásico o moderno: 12 €
 - Corte infantil (hasta 12 años): 9 €
-- Corte jubilados / pensionistas: 8 €
+- Corte para jubilados / pensionistas: 8 €
 - Arreglo y perfilado de barba: 8 €
 - Afeitado tradicional a navaja con toalla caliente: 14 €
 - Lavado con masaje capilar: 5 €
@@ -20,6 +22,6 @@ Horario de atención:
 
 Información práctica:
 - Ubicación: Calle Mayor nº 14 (frente a la plaza principal)
-- Métodos de pago: Efectivo, tarjeta y Bizum.
+- Métodos de pago: Efectivo, tarjeta de crédito/débito y Bizum.
 - Citas: Atendemos principalmente por orden de llegada, pero puedes pedir cita previa por teléfono para evitar esperas.
-- ¡Te invitamos a un café o agua mientras esperas!
+- ¡Te invitamos a un café o agua de cortesía mientras esperas!

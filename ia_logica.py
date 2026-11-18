@@ -1,4 +1,3 @@
-
 import os
 import json
 from dotenv import load_dotenv
@@ -6,12 +5,12 @@ import google.generativeai as genai
 
 
 class AsistentePeluqueria:
-    def __init__(self, ruta_contexto="contexto.txt"):
+    def __init__(self, ruta_contexto="contexto.txt", ruta_servicios="servicios.txt"):
         """
         Constructor:
         1. Carga las variables de entorno desde el archivo .env usando python-dotenv.
         2. Configura la API Key de forma segura sin exponerla en el código.
-        3. Carga el contexto y las reglas del asistente desde el archivo externo (contexto.txt o servicios.txt).
+        3. Carga el contexto de la función del asistente desde contexto.txt y la información de servicios desde servicios.txt.
         4. Inicializa el modelo generativo de Gemini con las instrucciones del sistema cargadas.
         """
         # Cargar variables del archivo .env al entorno de ejecución del sistema operativo
@@ -28,10 +27,10 @@ class AsistentePeluqueria:
         # Configurar la librería oficial de Gemini con la clave obtenida
         genai.configure(api_key=self.api_key)
 
-        # Leer íntegramente el contexto y las instrucciones desde el archivo externo
+        # Leer íntegramente el contexto de su función (contexto.txt) y los servicios (servicios.txt)
         # De esta forma evitamos texto 'hardcodeado' en el código: todo el comportamiento,
-        # servicios, precios y reglas se configuran en el archivo .txt/.md externo.
-        self.instrucciones_sistema = self._cargar_contexto(ruta_contexto)
+        # servicios, precios y reglas se configuran en los archivos externos.
+        self.instrucciones_sistema = self._cargar_contexto(ruta_contexto, ruta_servicios)
 
         # Usamos gemini-3.5-flash-lite: es el modelo actual recomendado por Google para respuestas rápidas y cuota gratuita
         nombre_modelo = os.getenv("MODELO_GEMINI", "gemini-3.5-flash-lite")
@@ -41,25 +40,28 @@ class AsistentePeluqueria:
             generation_config={"response_mime_type": "application/json"}
         )
 
-    def _cargar_contexto(self, ruta_archivo):
-        """
-        Lee el archivo externo con el contexto y las instrucciones del asistente (.txt o .md).
-        Permite desacoplar totalmente los datos del código fuente de la aplicación.
-        """
-        # Lista de rutas prioritarias donde buscar el archivo de contexto
-        rutas_candidatas = [ruta_archivo, "contexto.txt", "contexto.md", "servicios.txt"]
+    def _leer_archivo(self, ruta_archivo: str) -> str:
+        """Lee y devuelve el contenido de un archivo de texto en UTF-8."""
+        if not ruta_archivo or not os.path.exists(ruta_archivo):
+            raise FileNotFoundError(
+                f"No se encontró el archivo '{ruta_archivo}' en la raíz del proyecto."
+            )
+        with open(ruta_archivo, "r", encoding="utf-8") as f:
+            contenido = f.read().strip()
+        if not contenido:
+            raise ValueError(f"El archivo '{ruta_archivo}' está vacío.")
+        return contenido
 
-        for ruta in rutas_candidatas:
-            if ruta and os.path.exists(ruta):
-                with open(ruta, "r", encoding="utf-8") as f:
-                    contenido = f.read().strip()
-                    if contenido:
-                        return contenido
+    def _cargar_contexto(self, ruta_contexto: str, ruta_servicios: str) -> str:
+        """
+        Lee el archivo de contexto de la función del asistente (contexto.txt) y el archivo
+        con la información de los servicios (servicios.txt), combinándolos para la IA.
+        Permite desacoplar totalmente los datos y el rol del código fuente de la aplicación.
+        """
+        contexto_funcion = self._leer_archivo(ruta_contexto)
+        info_servicios = self._leer_archivo(ruta_servicios)
 
-        raise FileNotFoundError(
-            f"No se pudo cargar el contexto para la IA. "
-            f"Asegúrate de que existe '{ruta_archivo}', 'contexto.txt' o 'servicios.txt' en la raíz del proyecto."
-        )
+        return f"{contexto_funcion}\n\n{info_servicios}"
 
     def consultar(self, pregunta: str) -> str:
         """
