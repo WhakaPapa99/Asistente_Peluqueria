@@ -78,35 +78,6 @@ class AsistenteGUI:
         self.ventana.bind("<Return>", lambda event: self.enviar_mensaje())
 
     def _crear_boton_enviar(self, contenedor):
-        """
-        Crea el botón de envío.
-        Si existe una imagen 'assets/send.png' o 'send.png', carga el icono gráfico.
-        De lo contrario, utiliza un símbolo Unicode elegante (➤ Enviar).
-        """
-        ruta_icono = "assets/send.png" if os.path.exists("assets/send.png") else "send.png"
-
-        if os.path.exists(ruta_icono):
-            try:
-                # Cargar imagen en formato PNG nativo de Tkinter
-                icono = tk.PhotoImage(file=ruta_icono)
-                # NOTA TÉCNICA: Guardamos la referencia en el botón para evitar que
-                # el Garbage Collector de Python la elimine de la memoria RAM
-                boton = tk.Button(
-                    contenedor,
-                    image=icono,
-                    command=self.enviar_mensaje,
-                    bg="#0066CC",
-                    activebackground="#0052A3",
-                    relief=tk.FLAT,
-                    cursor="hand2",
-                    padx=10,
-                    pady=5
-                )
-                boton.image = icono  # Referencia obligatoria en Tkinter
-                return boton
-            except Exception:
-                pass  # Si la imagen falla, caemos en el botón con símbolo Unicode
-
         # Botón con símbolo / texto estilizado
         return tk.Button(
             contenedor,
